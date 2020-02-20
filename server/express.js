@@ -50,23 +50,23 @@ app.use('/', authRoutes)
 app.get('*', (req, res) => {
    const sheetsRegistry = new SheetsRegistry()
    const theme = createMuiTheme({
-     palette: {
-       primary: {
-       light: '#757de8',
-       main: '#969696',
-       dark: '#002984',
-       contrastText: '#fff',
-     },
-     secondary: {
-       light: '#ff79b0',
-       main: '#DD7C51',
-       dark: '#c60055',
-       contrastText: '#000',
-     },
-       openTitle: indigo['400'],
-       protectedTitle: pink['400'],
-       type: 'light'
-     },
+    palette: {
+      primary: {
+      light: '#757de8',
+      main: '#000000',
+      dark: '#002984',
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#ff79b0',
+      main: '#FF0000',
+      dark: '#c60055',
+      contrastText: '#000',
+    },
+      openTitle: indigo['400'],
+      protectedTitle: pink['400'],
+      type: 'light'
+    },
    })
    const generateClassName = createGenerateClassName()
    const context = {}

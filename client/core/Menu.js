@@ -41,7 +41,7 @@ const Menu = withRouter(({history}) => (
         PickUpGames
       </Typography>
       <Link to="/">
-        <IconButton aria-label="Home" style={isActive(history, "/")}>
+         <IconButton aria-label="Home" style={isActive(history, "/")}>
           <HomeIcon/>
         </IconButton>
       </Link>
