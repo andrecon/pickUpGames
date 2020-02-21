@@ -14,6 +14,8 @@ import DeleteUser from './DeleteUser'
 import auth from './../auth/auth-helper'
 import {read} from './api-user.js'
 import {Redirect, Link} from 'react-router-dom'
+import FollowProfileButton from './../user/FollowProfileButton'
+import ProfileTabs from './../user/ProfileTabs'
 
 const styles = theme => ({
   root: theme.mixins.gutters({
@@ -33,8 +35,9 @@ class Profile extends Component {
   constructor({match}) {
     super()
     this.state = {
-      user: '',
-      redirectToSignin: false
+      user: {following:[], followers:[]},
+      redirectToSignin: false,
+      following: false,
     }
     this.match = match
   }
@@ -46,6 +49,8 @@ class Profile extends Component {
       if (data.error) {
         this.setState({redirectToSignin: true})
       } else {
+        let following = this.checkFollow(data)
+        this.setState({user: data, following: following})
         this.setState({user: data})
       }
     })
@@ -55,6 +60,27 @@ class Profile extends Component {
   }
   componentDidMount = () => {
     this.init(this.match.params.userId)
+  }
+  checkFollow = (user) => {
+    const jwt = auth.isAuthenticated()
+    const match = user.followers.find((follower)=> {
+      return follower._id == jwt.user._id
+    })
+    return match
+  }
+  clickFollowButton = (callApi) => {
+    const jwt = auth.isAuthenticated()
+    callApi({
+      userId: jwt.user._id
+    }, {
+      t: jwt.token
+    }, this.state.user._id).then((data) => {
+      if (data.error) {
+        this.setState({error: data.error})
+      } else {
+        this.setState({user: data, following: !this.state.following})
+      }
+    })
   }
   render() {
     const {classes} = this.props
@@ -76,15 +102,16 @@ class Profile extends Component {
               <Avatar src={photoUrl} className={classes.bigAvatar}/>
             </ListItemAvatar>
             <ListItemText primary={this.state.user.name} secondary={this.state.user.email}/> {
-             auth.isAuthenticated().user && auth.isAuthenticated().user._id == this.state.user._id && 
-              (<ListItemSecondaryAction>
-                <Link to={"/user/edit/" + this.state.user._id}>
-                  <IconButton aria-label="Edit" color="primary">
-                    <Edit/>
-                  </IconButton>
-                </Link>
-                <DeleteUser userId={this.state.user._id}/>
-              </ListItemSecondaryAction>)
+             auth.isAuthenticated().user && auth.isAuthenticated().user._id == this.state.user._id
+             ? (<ListItemSecondaryAction>
+                  <Link to={"/user/edit/" + this.state.user._id}>
+                    <IconButton aria-label="Edit" color="primary">
+                      <Edit/>
+                    </IconButton>
+                  </Link>
+                  <DeleteUser userId={this.state.user._id}/>
+                </ListItemSecondaryAction>)
+            : (<FollowProfileButton following={this.state.following} onButtonClick={this.clickFollowButton}/>)
             }
           </ListItem>
           <Divider/>
@@ -93,6 +120,7 @@ class Profile extends Component {
               new Date(this.state.user.created)).toDateString()}/>
           </ListItem>
         </List>
+        <ProfileTabs user={this.state.user}/>
       </Paper>
     )
   }
