@@ -22,11 +22,12 @@ const config = {
                 ]
             },
             {
-                test: /\.(ttf|eot|svg|gif|jpg|png)(\?[\s\S]+)?$/,
+                test: /\.(svg|gif|jpg|png)(\?[\s\S]+)?$/,
                 use: 'file-loader'
             }
         ]
     }
 }
+// /\.(ttf|eot|svg|gif|jpg|png)(\?[\s\S]+)?$/,
 
 module.exports = config

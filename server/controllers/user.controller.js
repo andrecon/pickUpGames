@@ -3,7 +3,7 @@ import _ from 'lodash'
 import errorHandler from './../helpers/dbErrorHandler'
 import formidable from 'formidable'
 import fs from 'fs'
-import profileImage from './../../client/assets/images/profile-pic.png'
+import profileImage from './../../client/assets/images/DefaultUser.jpg'
 
 const create = (req, res, next) => {
   const user = new User(req.body)
@@ -160,6 +160,19 @@ const removeFollower = (req, res) => {
   })
 }
 
+const findPeople = (req, res) => {
+  let following = req.profile.following
+  following.push(req.profile._id)
+  User.find({ _id: { $nin : following } }, (err, users) => {
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler.getErrorMessage(err)
+      })
+    }
+    res.json(users)
+  }).select('name')
+}
+
 export default {
   create,
   userByID,
@@ -172,5 +185,6 @@ export default {
   addFollowing,
   addFollower,
   removeFollowing,
-  removeFollower
+  removeFollower,
+  findPeople
 }

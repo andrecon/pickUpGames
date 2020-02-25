@@ -26,7 +26,7 @@ const config = {
                 ]
             },
             {
-                test: /\.(ttf|eot|svg|gif|jpg|png)(\?[\s\S]+)?$/,
+                test: /\.(svg|gif|jpg|png)(\?[\s\S]+)?$/,
                 use: 'file-loader'
             }
         ]
@@ -35,5 +35,6 @@ const config = {
           new webpack.NoEmitOnErrorsPlugin()
       ]
 }
+// /\.(ttf|eot|svg|gif|jpg|png)(\?[\s\S]+)?$/,
 
 module.exports = config
