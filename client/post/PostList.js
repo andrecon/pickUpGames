@@ -6,7 +6,7 @@ import Post from './Post'
 class PostList extends Component {
   render() {
     return (
-      <div style={{marginTop: '24px'}}>
+      <div style={{marginTop: '50px'}}>
           {console.log(this.props.posts)}
         {this.props.posts.map((item, i) => {
             return <Post post={item} key={i} onRemove={this.props.removeUpdate}/>

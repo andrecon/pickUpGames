@@ -15,12 +15,45 @@ import {Link} from 'react-router-dom'
 import {remove, like, unlike} from './api-post.js'
 import Comments from './Comments'
 
+import MapContainer from './MapComponent'
+
+// import { GoogleApiWrapper, InfoWindow, Map, Marker } from 'google-maps-react';
+// import Geocode from "react-geocode";
+
+// Geocode.setApiKey("YOUR_API_KEY");
+// Geocode.setLanguage("en");
+// Geocode.enableDebug();
+
+
+// function codeAddress(location) {
+//   var address = location;
+//   console.log("Boom", address)
+//   var loc;
+//   Geocode.fromAddress(address).then(
+//       response => {
+//         // const { lat, lng } = response.results[0].geometry.location;
+//         var myLoc = new Array();
+//         myLoc[0] = response.results[0].geometry.location.lat;
+//         myLoc[1] = response.results[0].geometry.location.lng;
+//         // console.log(lat, lng);
+//         loc = myLoc;
+//         console.log("DATA", loc)
+//         return loc;
+//       },
+//       error => {
+//         console.error(error);
+//       }
+//     );
+// }
+
 const styles = theme => ({
   card: {
     maxWidth:600,
     margin: 'auto',
-    marginBottom: theme.spacing.unit*3,
-    backgroundColor: 'rgba(0, 0, 0, 0.06)'
+    marginBottom: theme.spacing.unit*10 + 100 ,
+    backgroundColor: 'rgba(0, 0, 0, 0.06)',
+    height: '700px',
+    paddingBottom: '50px'
   },
   cardContent: {
     backgroundColor: 'white',
@@ -31,6 +64,9 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit
   },
   text: {
+    margin: theme.spacing.unit*2
+  },
+  location: {
     margin: theme.spacing.unit*2
   },
   photo: {
@@ -117,12 +153,14 @@ class Post extends Component {
             subheader={(new Date(this.props.post.created)).toDateString()}
             className={classes.cardHeader}
           />
+        
         <CardContent className={classes.cardContent}>
           <Typography component="p" className={classes.text}>
             <center>{this.props.post.text}</center>
           </Typography>
           <Typography component="p" className={classes.location}>
-             <center>Location: <a>{this.props.post.location} </a> </center>
+            
+             <center>Location: <a>{this.props.post.address + " " + this.props.post.city + " " + this.props.post.state} </a> </center>
           </Typography>
           {this.props.post.photo &&
             (<div className={classes.photo}>
@@ -146,6 +184,7 @@ class Post extends Component {
         </CardActions>
         <Divider/>
         <Comments postId={this.props.post._id} comments={this.state.comments} updateComments={this.updateComments}/>
+        <MapContainer address = {this.props.post.address + " " + this.props.post.city + " " + this.props.post.state } latitude = {this.props.lat} longitude = {this.props.lng} > </MapContainer>
       </Card>
     )
   }

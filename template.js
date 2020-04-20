@@ -6,6 +6,7 @@ export default ({markup, css}) => {
         <title>PickUpGames</title>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        
         <style>
             a{
               text-decoration: none

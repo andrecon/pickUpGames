@@ -1,3 +1,7 @@
+import dotevn from 'dotenv'
+
+dotevn.config()
+
 const config = {
     env: process.env.NODE_ENV || 'development',
     port: process.env.PORT || 3000,
@@ -6,7 +10,8 @@ const config = {
       process.env.MONGO_HOST ||
       'mongodb://' + (process.env.IP || 'localhost') + ':' +
       (process.env.MONGO_PORT || '27017') +
-      '/mernproject'
+      '/mernproject',
+    api: process.env.GOOGLE_API
   }
   
   export default config

@@ -12,6 +12,70 @@ import auth from './../auth/auth-helper'
 import IconButton from 'material-ui/IconButton'
 import PhotoCamera from 'material-ui-icons/PhotoCamera'
 
+// import DatePicker from "react-datepicker";
+ 
+// import DateCSS from "react-datepicker/dist/react-datepicker.css";
+// import MapContainer from './MapComponent'
+// import Geocode from "react-geocode";
+
+// Geocode.setApiKey("YOUR_API_KEY");
+// Geocode.setLanguage("en");
+// Geocode.enableDebug();
+
+
+// var myLoc = new Array();
+
+// function codeAddressLat(location) {
+//   var address = location;
+//   console.log("Boom", address)
+//   var geocoder = new google.maps.Geocoder();
+//   var lat = '';
+//   Geocode.fromAddress(address).then(
+//       response => {
+//         // const { lat, lng } = response.results[0].geometry.location;
+//         // var myLoc = new Array();
+        
+//         myLoc["lat"] = response.results[0].geometry.location.lat;
+//         myLoc["lng"] = response.results[0].geometry.location.lng;
+//         // console.log(lat, lng);
+//         lat = response.results[0].geometry.location.lat;
+//         console.log("DATA for LAT", response.results[0].geometry.location.lat)
+//         return response.results[0].geometry.location.lng;
+//       },
+//       error => {
+//         console.error(error);
+//       }
+//     );
+//     return lat;
+// }
+
+// function codeAddressLng(location) {
+//   var address = location;
+//   console.log("Boom", address)
+//   var geocoder = new google.maps.Geocoder();
+//   var lng = '';
+//   Geocode.fromAddress(address).then(
+//       response => {
+//         // const { lat, lng } = response.results[0].geometry.location;
+//         // var myLoc = new Array();
+        
+//         myLoc["lat"] = response.results[0].geometry.location.lat;
+//         myLoc["lng"] = response.results[0].geometry.location.lng;
+//         // console.log(lat, lng);
+//         // console.log("DATA", loc)
+//         lng = response.results[0].geometry.location.lng;
+//         console.log("DATA for LNG", response.results[0].geometry.location.lng)
+//         return response.results[0].geometry.location.lat;
+//       },
+//       error => {
+//         console.error(error);
+//       }
+//     );
+//     return lng;
+// }
+
+
+
 const styles = theme => ({
   root: {
     backgroundColor: '#efefef',
@@ -45,11 +109,19 @@ const styles = theme => ({
     marginRight: theme.spacing.unit*2,
     width: '90%'
   },
+  addressField: {
+    marginLeft: theme.spacing.unit*2,
+    marginRight: theme.spacing.unit*2,
+    width: '43%'
+  },
   submit: {
     margin: theme.spacing.unit * 2
   },
   filename:{
     verticalAlign: 'super'
+  },
+  span: {
+    whiteSpace: 'pre-line'
   }
 })
 
@@ -58,6 +130,8 @@ class NewPost extends Component {
     text: '',
     photo: '',
     error: '',
+    lat: '',
+    lng: '',
     user: {}
   }
 
@@ -67,6 +141,15 @@ class NewPost extends Component {
   }
   clickPost = () => {
     const jwt = auth.isAuthenticated()
+    // this.state.lat = codeAddressLat(this.state.address + this.state.city + this.state.state + this.state.postal_code)
+    // this.state.lng = codeAddressLng(this.state.address + this.state.city + this.state.state + this.state.postal_code)
+
+    // this.postData.lat = codeAddressLat(this.state.address + this.state.city + this.state.state + this.state.postal_code);
+    // this.postData.lng = codeAddressLng(this.state.address + this.state.city + this.state.state + this.state.postal_code);
+
+    // console.log("FORM", this.postData)
+    // console.log("HERE IT IS", this.postData.lat)
+    // console.log("HERE IT IS 2", this.postData.lng)
     create({
       userId: jwt.user._id
     }, {
@@ -75,7 +158,7 @@ class NewPost extends Component {
       if (data.error) {
         this.setState({error: data.error})
       } else {
-        this.setState({text:'', photo: ''})
+        this.setState({text:'', address:'', city:'', state:'', postal_code:'', date:'', photo: ''})
         this.props.addUpdate(data)
       }
     })
@@ -109,12 +192,48 @@ class NewPost extends Component {
             margin="normal"
         />
         <TextField
-            placeholder="Location ..."
+            placeholder="Address"
             multiline
             rows="1"
-            value={this.state.location}
-            onChange={this.handleChange('location')}
-            className={classes.textField}
+            value={this.state.address}
+            onChange={this.handleChange('address')}
+            className={classes.addressField}
+            margin="normal"
+        />
+        <TextField
+            placeholder="City"
+            multiline
+            rows="1"
+            value={this.state.city}
+            onChange={this.handleChange('city')}
+            className={classes.addressField}
+            margin="normal"
+        />
+        <TextField
+            placeholder="State"
+            multiline
+            rows="1"
+            value={this.state.state}
+            onChange={this.handleChange('state')}
+            className={classes.addressField}
+            margin="normal"
+        />
+        <TextField
+            placeholder="Zip Code"
+            multiline
+            rows="1"
+            value={this.state.postal_code}
+            onChange={this.handleChange('postal_code')}
+            className={classes.addressField}
+            margin="normal"
+        />
+        <TextField
+            placeholder="MM/DD/YYYY"
+            multiline
+            rows="1"
+            value={this.state.date}
+            onChange={this.handleChange('date')}
+            className={classes.addressField}
             margin="normal"
         />
         <input accept="image/*" onChange={this.handleChange('photo')} className={classes.input} id="icon-button-file" type="file" />

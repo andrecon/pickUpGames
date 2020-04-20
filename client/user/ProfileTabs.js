@@ -54,7 +54,7 @@ ProfileTabs.propTypes = {
 
 const TabContainer = (props) => {
   return (
-    <Typography component="div" style={{ padding: 8 * 2 }}>
+    <Typography component="div" style={{ padding: '0px' }}>
       {props.children}
     </Typography>
   )
