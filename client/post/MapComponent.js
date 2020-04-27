@@ -25,8 +25,7 @@ function codeAddress(callback,location) {
         
         myLoc["lat"] = response.results[0].geometry.location.lat;
         myLoc["lng"] = response.results[0].geometry.location.lng;
-        // console.log(lat, lng);
-        // console.log("DATA", loc)
+        console.log("DATA",location, myLoc)
         callback(myLoc);
       },
       error => {
@@ -40,7 +39,6 @@ class MapContainer extends React.Component {
   constructor(props) {
     super(props);
     var loc = codeAddress(function(num) {
-      console.log("enter")
       return num;
     }, this.props.address,loc);
     
@@ -50,11 +48,8 @@ class MapContainer extends React.Component {
       selectedPlace: {}
     }
 
-    console.log("TESTIIIING", props.latitude)
-    console.log("TESTIIIING 22222", props.longitude)
-    // console.log("Loc",loc)
-    // console.log("LocSpecificData", typeof(loc.lat))
-
+    console.log("HERE1", this.props.latitude)
+    console.log("HERE2", this.props.longitude)
     // binding this to event-handler functions
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.onMapClick = this.onMapClick.bind(this);
@@ -76,11 +71,11 @@ class MapContainer extends React.Component {
   }
   render() {
     const style = {
-      width: '37.5vw',
+      width: '41.5vw',
       height: '38vh',
       'marginLeft': 'none',
       'marginRight': 'none',
-      'marginBottom': '100px'
+      'marginBottom': '200px'
     }
     return (
       <Map
@@ -90,13 +85,13 @@ class MapContainer extends React.Component {
         google = { this.props.google }
         onClick = { this.onMapClick }
         zoom = { 14 }
-        initialCenter = {{ lat: 39.7322938, lng: -121.8581513 }}
+        initialCenter = {{ lat: this.props.latitude, lng: this.props.longitude }}
         // initialCenter = {{ lat: loc[0], lng: loc[1]}}
       >
         <Marker
           onClick = { this.onMarkerClick }
           title = { 'Changing Colors Garage' }
-          initialCenter = {{ lat: 39.7322938, lng: -121.8581513 }}
+          initialCenter = {{ lat: this.props.latitude, lng: this.props.longitude }}
           // position = {{ lat: loc[0], lng: loc[1]}}
           name = { 'Changing Colors Garage' }
         />
@@ -109,13 +104,12 @@ class MapContainer extends React.Component {
               variant = 'headline'
               component = 'h4'
             >
-              Changing Colors Garage
+              {this.props.title}
             </Typography>
             <Typography
               component = 'p'
             >
               {this.props.address} <br />
-              302-293-8627
             </Typography>
           </Paper>
         </InfoWindow>

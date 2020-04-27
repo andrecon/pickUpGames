@@ -17,34 +17,6 @@ import Comments from './Comments'
 
 import MapContainer from './MapComponent'
 
-// import { GoogleApiWrapper, InfoWindow, Map, Marker } from 'google-maps-react';
-// import Geocode from "react-geocode";
-
-// Geocode.setApiKey("YOUR_API_KEY");
-// Geocode.setLanguage("en");
-// Geocode.enableDebug();
-
-
-// function codeAddress(location) {
-//   var address = location;
-//   console.log("Boom", address)
-//   var loc;
-//   Geocode.fromAddress(address).then(
-//       response => {
-//         // const { lat, lng } = response.results[0].geometry.location;
-//         var myLoc = new Array();
-//         myLoc[0] = response.results[0].geometry.location.lat;
-//         myLoc[1] = response.results[0].geometry.location.lng;
-//         // console.log(lat, lng);
-//         loc = myLoc;
-//         console.log("DATA", loc)
-//         return loc;
-//       },
-//       error => {
-//         console.error(error);
-//       }
-//     );
-// }
 
 const styles = theme => ({
   card: {
@@ -155,12 +127,17 @@ class Post extends Component {
           />
         
         <CardContent className={classes.cardContent}>
+        <Typography component="p" className={classes.text}>
+            <center>{this.props.post.title}</center>
+          </Typography>
+          
           <Typography component="p" className={classes.text}>
             <center>{this.props.post.text}</center>
           </Typography>
           <Typography component="p" className={classes.location}>
             
              <center>Location: <a>{this.props.post.address + " " + this.props.post.city + " " + this.props.post.state} </a> </center>
+
           </Typography>
           {this.props.post.photo &&
             (<div className={classes.photo}>
@@ -184,7 +161,7 @@ class Post extends Component {
         </CardActions>
         <Divider/>
         <Comments postId={this.props.post._id} comments={this.state.comments} updateComments={this.updateComments}/>
-        <MapContainer address = {this.props.post.address + " " + this.props.post.city + " " + this.props.post.state } latitude = {this.props.lat} longitude = {this.props.lng} > </MapContainer>
+        <MapContainer address = {this.props.post.address + " " + this.props.post.city + " " + this.props.post.state } latitude = {this.props.post.lat} longitude = {this.props.post.lng} title ={this.props.post.title}> </MapContainer>
       </Card>
     )
   }

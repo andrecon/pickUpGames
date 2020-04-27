@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import crypto from 'crypto'
+import { TimePicker } from 'material-ui'
 const PostSchema = new mongoose.Schema({
   text: {
     type: String,
@@ -39,12 +40,19 @@ const PostSchema = new mongoose.Schema({
     default: Date.now
   },
   lat: {
-    type: String,
+    type: Number,
   },
   lng: {
+    type: Number,
+  },
+  title: {
     type: String,
-  }
-
+    required: 'Title is required'
+  },
+  // time: {
+  //   type: TimePicker,
+  //   required: "Time is required"
+  // }
 })
 
 export default mongoose.model('Post', PostSchema)

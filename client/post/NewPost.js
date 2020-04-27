@@ -12,68 +12,14 @@ import auth from './../auth/auth-helper'
 import IconButton from 'material-ui/IconButton'
 import PhotoCamera from 'material-ui-icons/PhotoCamera'
 
-// import DatePicker from "react-datepicker";
- 
-// import DateCSS from "react-datepicker/dist/react-datepicker.css";
-// import MapContainer from './MapComponent'
-// import Geocode from "react-geocode";
-
-// Geocode.setApiKey("YOUR_API_KEY");
-// Geocode.setLanguage("en");
-// Geocode.enableDebug();
-
-
-// var myLoc = new Array();
-
-// function codeAddressLat(location) {
-//   var address = location;
-//   console.log("Boom", address)
-//   var geocoder = new google.maps.Geocoder();
-//   var lat = '';
-//   Geocode.fromAddress(address).then(
-//       response => {
-//         // const { lat, lng } = response.results[0].geometry.location;
-//         // var myLoc = new Array();
-        
-//         myLoc["lat"] = response.results[0].geometry.location.lat;
-//         myLoc["lng"] = response.results[0].geometry.location.lng;
-//         // console.log(lat, lng);
-//         lat = response.results[0].geometry.location.lat;
-//         console.log("DATA for LAT", response.results[0].geometry.location.lat)
-//         return response.results[0].geometry.location.lng;
-//       },
-//       error => {
-//         console.error(error);
-//       }
-//     );
-//     return lat;
-// }
-
-// function codeAddressLng(location) {
-//   var address = location;
-//   console.log("Boom", address)
-//   var geocoder = new google.maps.Geocoder();
-//   var lng = '';
-//   Geocode.fromAddress(address).then(
-//       response => {
-//         // const { lat, lng } = response.results[0].geometry.location;
-//         // var myLoc = new Array();
-        
-//         myLoc["lat"] = response.results[0].geometry.location.lat;
-//         myLoc["lng"] = response.results[0].geometry.location.lng;
-//         // console.log(lat, lng);
-//         // console.log("DATA", loc)
-//         lng = response.results[0].geometry.location.lng;
-//         console.log("DATA for LNG", response.results[0].geometry.location.lng)
-//         return response.results[0].geometry.location.lat;
-//       },
-//       error => {
-//         console.error(error);
-//       }
-//     );
-//     return lng;
-// }
-
+// import 'date-fns';
+// import Grid from '@material-ui/core/Grid';
+// import DateFnsUtils from '@date-io/date-fns';
+// import {
+//   MuiPickersUtilsProvider,
+//   KeyboardTimePicker,
+//   KeyboardDatePicker,
+// } from '@material-ui/pickers';
 
 
 const styles = theme => ({
@@ -125,6 +71,12 @@ const styles = theme => ({
   }
 })
 
+// const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+
+// const handleDateChange = (date) => {
+//   setSelectedDate(date);
+// };
+
 class NewPost extends Component {
   state = {
     text: '',
@@ -141,15 +93,6 @@ class NewPost extends Component {
   }
   clickPost = () => {
     const jwt = auth.isAuthenticated()
-    // this.state.lat = codeAddressLat(this.state.address + this.state.city + this.state.state + this.state.postal_code)
-    // this.state.lng = codeAddressLng(this.state.address + this.state.city + this.state.state + this.state.postal_code)
-
-    // this.postData.lat = codeAddressLat(this.state.address + this.state.city + this.state.state + this.state.postal_code);
-    // this.postData.lng = codeAddressLng(this.state.address + this.state.city + this.state.state + this.state.postal_code);
-
-    // console.log("FORM", this.postData)
-    // console.log("HERE IT IS", this.postData.lat)
-    // console.log("HERE IT IS 2", this.postData.lng)
     create({
       userId: jwt.user._id
     }, {
@@ -158,7 +101,7 @@ class NewPost extends Component {
       if (data.error) {
         this.setState({error: data.error})
       } else {
-        this.setState({text:'', address:'', city:'', state:'', postal_code:'', date:'', photo: ''})
+        this.setState({text:'', address:'', city:'', state:'', postal_code:'', date:'', photo: '', title:'' })
         this.props.addUpdate(data)
       }
     })
@@ -170,6 +113,7 @@ class NewPost extends Component {
     this.postData.set(name, value)
     this.setState({ [name]: value })
   }
+  
   render() {
     const {classes} = this.props
     return (<div className={classes.root}>
@@ -182,6 +126,15 @@ class NewPost extends Component {
             className={classes.cardHeader}
           />
       <CardContent className={classes.cardContent}>
+        <TextField
+            placeholder="Title"
+            multiline
+            rows="3"
+            value={this.state.title}
+            onChange={this.handleChange('title')}
+            className={classes.textField}
+            margin="normal"
+        />
         <TextField
             placeholder="Describe Activity Session ..."
             multiline
@@ -236,6 +189,19 @@ class NewPost extends Component {
             className={classes.addressField}
             margin="normal"
         />
+        {/* <TextField
+          id="time"
+          label="Alarm clock"
+          type="time"
+          defaultValue="07:30"
+          className={classes.textField}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          inputProps={{
+            step: 300, // 5 min
+           }}
+        /> */}
         <input accept="image/*" onChange={this.handleChange('photo')} className={classes.input} id="icon-button-file" type="file" />
         <label htmlFor="icon-button-file">
           <IconButton color="secondary" className={classes.photoButton} component="span">
